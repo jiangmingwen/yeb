@@ -1,0 +1,51 @@
+server:
+  port: 9000
+
+spring:
+  #  数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/yeb?useUnicode=true&character=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: jay123
+    hikari:
+      #      连接池名
+      pool-name: DateHikariCP
+      #      最小空闲连接数
+      minimum-idle: 5
+      #      空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 1800000
+      #      最大连接数，默认10
+      maximum-pool-size: 10
+      #      从连接池返回的连接的自动提交
+      auto-commit: true
+      #      连接最大存活时间，0表示永久存活，默认180000（30分钟）
+      max-lifetime: 1800000
+      #      连接默认时间，默认30000（30秒）
+      connection-timeout: 30000
+      #      测试连接可用的查询语句
+      connection-test-query: SELECT 1
+
+# Mybatis-plus 配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.jay.server.pojo
+  configuration:
+    map-underscore-to-camel-case: false
+  db-config:
+    table-prefix: t_
+
+logging:
+  level:
+    com.jay.server.mapper: debug
+
+jwt:
+  #  JWT存储的请求头
+  tokenHeader: Authorization
+  #  JWT加密解密使用的秘钥
+  secret: yeb-secret
+  #  JWT的超期限时间(60*60*24)
+  expiration: 604880
+  #  JWT负载中拿到开头
+  tokenHead: Bearer
+
