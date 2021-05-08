@@ -2,6 +2,7 @@ package com.jay.server.mapper;
 
 import com.jay.server.pojo.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>

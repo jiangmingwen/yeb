@@ -1,11 +1,12 @@
 server:
   port: 9000
 
+
 spring:
   #  数据源配置
   datasource:
-    url: jdbc:mysql://localhost:3306/yeb?useUnicode=true&character=UTF-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://1.15.49.153:3306/yeb?useUnicode=true&character=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: jay123
     hikari:
@@ -29,11 +30,11 @@ spring:
 # Mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
+  #配置mybatis数据返回类型别名
   type-aliases-package: com.jay.server.pojo
   configuration:
+    # 自动驼峰命名
     map-underscore-to-camel-case: false
-  db-config:
-    table-prefix: t_
 
 logging:
   level:

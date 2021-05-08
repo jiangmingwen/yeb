@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class RespBean {
     private long code;
     private String message;
-    private Object obj;
+    private Object data;
 
     public static RespBean success(String message) {
         return new RespBean(200, message, null);
@@ -18,6 +18,10 @@ public class RespBean {
 
     public static RespBean success(String message, Object obj) {
         return new RespBean(200, message, obj);
+    }
+
+    public static RespBean success(Object obj) {
+        return new RespBean(200, "成功", obj);
     }
 
 
