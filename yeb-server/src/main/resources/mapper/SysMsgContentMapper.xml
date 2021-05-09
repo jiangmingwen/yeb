@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jay.server.mapper.PositionMapper">
+<mapper namespace="com.jay.server.mapper.SysMsgContentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jay.server.pojo.Position">
+    <resultMap id="BaseResultMap" type="com.jay.server.pojo.SysMsgContent">
         <id column="id" property="id" />
-        <result column="name" property="name" />
+        <result column="title" property="title" />
+        <result column="message" property="message" />
         <result column="createDate" property="createDate" />
-        <result column="enabled" property="enabled" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, createDate, enabled
+        id, title, message, createDate
     </sql>
 
 </mapper>

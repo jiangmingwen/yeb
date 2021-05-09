@@ -53,6 +53,8 @@ public class CodeGenerator {
 
         //xml开启BaseColumnList
         gc.setBaseColumnList(true);
+        //xml开启BaseResultMap
+        gc.setBaseResultMap(true);
 
         //实体属性Swagger2 注解
         gc.setSwagger2(true);

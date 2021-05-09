@@ -1,8 +1,16 @@
 package com.jay.server.controller;
 
 
+import com.jay.server.pojo.Menu;
+import com.jay.server.pojo.RespBean;
+import com.jay.server.service.IMenuService;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,7 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2021-05-07
  */
 @Controller
-@RequestMapping("/menu")
+@RequestMapping("/api/system/cfg")
 public class MenuController {
+
+    @Autowired
+    private IMenuService menuService;
+
+    @ApiOperation("通过用户id查询菜单")
+    @GetMapping("/menu")
+    public RespBean  getMenuByAdminId(){
+        List<Menu> menus =  menuService.getMenuByAdminId();
+        return  RespBean.success(menus);
+    }
 
 }

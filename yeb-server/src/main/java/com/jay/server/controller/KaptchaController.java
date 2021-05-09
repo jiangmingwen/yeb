@@ -4,6 +4,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
@@ -14,13 +15,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 @RestController
+@RequestMapping("/api")
 public class KaptchaController {
 
     @Autowired
     private DefaultKaptcha defaultKaptcha;
 
     @ApiOperation("验证码")
-    @GetMapping(value = "/kaptcha",produces = "image/jpeg")
+    @GetMapping(value = "/unauth/kaptcha",produces = "image/jpeg")
     public void captch(HttpServletRequest request, HttpServletResponse response) {
         //定义response输出类型为image/jpeg类型
         response.setDateHeader("Expires",0);
