@@ -30,8 +30,8 @@ public class Swagger2Config {
                 .apis(RequestHandlerSelectors.basePackage("com.jay.server.controller"))
                 .paths(PathSelectors.any())
                 .build()
-                .securityContexts(securityContexts())
-                .securitySchemes(securitySchemes());
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts());
     }
 
     private ApiInfo apiInfo() {

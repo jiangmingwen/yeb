@@ -6,9 +6,9 @@ import com.jay.server.pojo.RespBean;
 import com.jay.server.service.IMenuService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @author Jay
  * @since 2021-05-07
  */
-@Controller
+@RestController
 @RequestMapping("/api/system/cfg")
 public class MenuController {
 

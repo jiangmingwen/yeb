@@ -6,8 +6,11 @@ import com.jay.server.mapper.MenuMapper;
 import com.jay.server.service.IMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +29,22 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     @Autowired
     private MenuMapper menuMapper;
 
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+
     @Override
     public List<Menu> getMenuByAdminId() {
-
-        return menuMapper.getMenuByAdminId(((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
-
+        Integer adminId = ((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+        List<Menu> menus = (List<Menu>) valueOperations.get("menu_" + adminId);
+        //如果redis为空
+        if (CollectionUtils.isEmpty(menus)) {
+            //从数据库查
+            menus = menuMapper.getMenuByAdminId(adminId);
+            //将数据设置到redis中
+            valueOperations.set("menu_" + adminId, menus);
+        }
+        return menus;
     }
 }
