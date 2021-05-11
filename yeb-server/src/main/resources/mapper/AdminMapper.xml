@@ -4,21 +4,31 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.jay.server.pojo.Admin">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="phone" property="phone" />
-        <result column="telephone" property="telephone" />
-        <result column="address" property="address" />
-        <result column="enabled" property="enabled" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="userFace" property="userFace" />
-        <result column="remark" property="remark" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="telephone" property="telephone"/>
+        <result column="address" property="address"/>
+        <result column="enabled" property="enabled"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="userFace" property="userFace"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, phone, telephone, address, enabled, username, password, userFace, remark
+        id
+        , name, phone, telephone, address, enabled, username, password, userFace, remark
     </sql>
+
+    <!--  根据用户id查询角色  -->
+    <select id="getRoles" resultType="com.jay.server.pojo.Role">
+        SELECT r.*
+        FROM t_admin_role ar,
+             t_role r
+        WHERE ar.rid = r.id
+          AND ar.adminId = #{adminId}
+    </select>
 
 </mapper>

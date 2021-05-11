@@ -5,6 +5,7 @@ import com.jay.server.config.security.JwtTokenUtil;
 import com.jay.server.pojo.Admin;
 import com.jay.server.mapper.AdminMapper;
 import com.jay.server.pojo.RespBean;
+import com.jay.server.pojo.Role;
 import com.jay.server.service.IAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -98,5 +100,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public Admin getAdminByUsername(String username) {
         return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username).eq("enabled", true));
+    }
+
+    /**
+     * 根据用户id查询角色
+     * @param adminId
+     * @return
+     */
+    @Override
+    public List<Role> getRoles(Integer adminId) {
+        return adminMapper.getRoles(adminId);
     }
 }

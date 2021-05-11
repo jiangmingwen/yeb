@@ -36,6 +36,7 @@ public class LoginController {
 
         Admin admin = adminService.getAdminByUsername(username);
         admin.setPassword(null);
+        admin.setRoles(adminService.getRoles(admin.getId()));
         return RespBean.success(admin);
 
     }

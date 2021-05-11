@@ -1,18 +1,23 @@
 package com.jay.server.config.security;
 
+import com.jay.server.config.filter.PermisionFilter;
+import com.jay.server.config.filter.RoleFilter;
 import com.jay.server.pojo.Admin;
 import com.jay.server.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -30,15 +35,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
 
+    @Autowired
+    private PermisionFilter permisionFilter;
+
+    @Autowired
+    private RoleFilter roleFilter;
+
     @Override
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
             Admin admin = adminService.getAdminByUsername(username);
             if (admin != null) {
+                admin.setRoles(adminService.getRoles(admin.getId()));
                 return admin;
             }
-            return null;
+            throw new UsernameNotFoundException("用户名或密码不正确");
         };
     }
 
@@ -76,6 +88,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //都需要认证
                 .anyRequest()
                 .authenticated()
+                //动态权限配置
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setAccessDecisionManager(permisionFilter);
+                        o.setSecurityMetadataSource(roleFilter);
+                        return o;
+                    }
+                })
                 .and()
                 //禁用缓存
                 .headers()
